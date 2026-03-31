@@ -87,15 +87,15 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ================= STATIC FILES (🔥 FINAL FIX) =================
-STATIC_URL = '/static/'
+# ================= STATIC FILES (FINAL FIX) =================
+STATIC_URL = '/assets/'   # 🔥 IMPORTANT
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FRONTEND_DIST = os.path.join(BASE_DIR.parent, 'frontend', 'dist')
 
-# ✅ VERY IMPORTANT — USE FULL dist
 STATICFILES_DIRS = [
-    FRONTEND_DIST
+    os.path.join(FRONTEND_DIST, 'assets')
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
