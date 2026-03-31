@@ -88,14 +88,15 @@ USE_I18N = True
 USE_TZ = True
 
 # ================= STATIC FILES (FINAL FIX) =================
-STATIC_URL = '/assets/'   # 🔥 IMPORTANT
+STATIC_URL = '/static/'   # ✅ MUST be /static/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FRONTEND_DIST = os.path.join(BASE_DIR.parent, 'frontend', 'dist')
 
+# ✅ IMPORTANT: Use full dist (not assets only)
 STATICFILES_DIRS = [
-    os.path.join(FRONTEND_DIST, 'assets')
+    FRONTEND_DIST
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
