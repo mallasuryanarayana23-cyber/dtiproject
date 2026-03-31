@@ -1,28 +1,21 @@
+from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import (
-    RegisterView, login_view, UserProfileView,
-    WorkerProfileViewSet, EnterpriseProfileViewSet,
-    CourseCategoryViewSet, CourseViewSet, VerificationTaskViewSet, WorkerVerificationViewSet,
-    JobViewSet, JobApplicationViewSet, ReviewViewSet, MessageViewSet
-)
-
-router = DefaultRouter()
-router.register(r'workers', WorkerProfileViewSet)
-router.register(r'enterprises', EnterpriseProfileViewSet)
-router.register(r'course-categories', CourseCategoryViewSet)
-router.register(r'courses', CourseViewSet)
-router.register(r'verification-tasks', VerificationTaskViewSet)
-router.register(r'verifications', WorkerVerificationViewSet)
-router.register(r'jobs', JobViewSet)
-router.register(r'job-applications', JobApplicationViewSet)
-router.register(r'reviews', ReviewViewSet)
-router.register(r'messages', MessageViewSet, basename='messages')
+from django.conf import settings
+from django.conf.urls.static import static
+import os
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('auth/register/', RegisterView.as_view(), name='auth_register'),
-    path('auth/login/', login_view, name='auth_login'),
-    path('auth/me/', UserProfileView.as_view(), name='auth_me'),
+    path('admin/', admin.site.urls),
+    path('api/', include('api.urls')),
 ]
 
+# ✅ Serve frontend assets (FIX for MIME error)
+urlpatterns += static(
+    '/assets/',
+    document_root=os.path.join(
+        settings.BASE_DIR.parent,
+        'frontend',
+        'dist',
+        'assets'
+    )
+)
