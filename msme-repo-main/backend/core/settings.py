@@ -40,7 +40,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
-    'corsheaders.middleware.CorsMiddleware',  # IMPORTANT (top)
+    'corsheaders.middleware.CorsMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,7 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# DATABASE
+# DATABASE (PostgreSQL works automatically)
 DATABASES = {
     'default': dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -93,21 +93,23 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# STATIC FILES
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# STATIC FILES (🔥 FIXED)
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 FRONTEND_DIST = os.path.join(BASE_DIR.parent, 'frontend', 'dist')
-if os.path.exists(FRONTEND_DIST):
-    STATICFILES_DIRS = [FRONTEND_DIST]
-else:
-    STATICFILES_DIRS = []
+
+STATICFILES_DIRS = [
+    os.path.join(FRONTEND_DIST, 'assets')
+]
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # MEDIA FILES
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# ✅ CORS SETTINGS (FINAL FIX)
+# CORS
 CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = [
@@ -120,7 +122,7 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
-    'bypass-tunnel-reminder',  # 🔥 FIX
+    'bypass-tunnel-reminder',
 ]
 
 # CUSTOM USER
