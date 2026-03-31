@@ -4,13 +4,13 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY
+# ================= SECURITY =================
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-change-this-in-production'
 )
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = ['*']
 
@@ -19,7 +19,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.vercel.app'
 ]
 
-# APPLICATIONS
+# ================= APPS =================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'api',
 ]
 
-# MIDDLEWARE
+# ================= MIDDLEWARE =================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -53,33 +53,27 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 
+# ================= TEMPLATES =================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR.parent, 'frontend', 'dist')],
         'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
     },
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# DATABASE (PostgreSQL works automatically)
+# ================= DATABASE (POSTGRES) =================
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        default='sqlite:///db.sqlite3',
         conn_max_age=600,
-        ssl_require=os.environ.get('DATABASE_URL', '').startswith('postgres')
+        ssl_require=True
     )
 }
 
-# PASSWORD VALIDATION
+# ================= PASSWORD VALIDATION =================
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -87,48 +81,35 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# INTERNATIONALIZATION
+# ================= INTERNATIONAL =================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# STATIC FILES (🔥 FIXED)
+# ================= STATIC FILES (🔥 IMPORTANT FIX) =================
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FRONTEND_DIST = os.path.join(BASE_DIR.parent, 'frontend', 'dist')
 
 STATICFILES_DIRS = [
-    os.path.join(FRONTEND_DIST, 'assets')
+    FRONTEND_DIST   # ✅ FULL dist (NOT assets)
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# MEDIA FILES
+# ================= MEDIA =================
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# CORS
+# ================= CORS =================
 CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ALLOW_HEADERS = [
-    'accept',
-    'accept-encoding',
-    'authorization',
-    'content-type',
-    'dnt',
-    'origin',
-    'user-agent',
-    'x-csrftoken',
-    'x-requested-with',
-    'bypass-tunnel-reminder',
-]
-
-# CUSTOM USER
+# ================= AUTH =================
 AUTH_USER_MODEL = 'api.User'
 
-# REST FRAMEWORK
+# ================= REST =================
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
