@@ -64,7 +64,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# ================= DATABASE (POSTGRES) =================
+# ================= DATABASE =================
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3',
@@ -87,14 +87,14 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ================= STATIC FILES (🔥 IMPORTANT FIX) =================
+# ================= STATIC FILES (🔥 FINAL FIX) =================
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FRONTEND_DIST = os.path.join(BASE_DIR.parent, 'frontend', 'dist')
 
 STATICFILES_DIRS = [
-    FRONTEND_DIST   # ✅ FULL dist (NOT assets)
+    os.path.join(FRONTEND_DIST, 'assets')   # ✅ IMPORTANT FIX
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
