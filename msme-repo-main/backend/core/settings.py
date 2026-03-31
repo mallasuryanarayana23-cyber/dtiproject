@@ -100,6 +100,7 @@ STATICFILES_DIRS = [
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WHITENOISE_ROOT = FRONTEND_DIST
 
 # ================= MEDIA =================
 MEDIA_URL = '/media/'
