@@ -93,8 +93,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 FRONTEND_DIST = os.path.join(BASE_DIR.parent, 'frontend', 'dist')
 
+# ✅ VERY IMPORTANT — USE FULL dist
 STATICFILES_DIRS = [
-    os.path.join(FRONTEND_DIST, 'assets')   # ✅ IMPORTANT FIX
+    FRONTEND_DIST
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
